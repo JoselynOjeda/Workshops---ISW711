@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Tasas de Cambio</title>
+  <script>
+    // Procesa y muestra la respuesta de la API
+    const completed = (response) => {
+      const data = JSON.parse(response.target.responseText);
+      const tipo = document.getElementById('currencyType').value;
+      let resultText = '';
+      // Muestra la información específica según el tipo de moneda seleccionado
+      if (tipo === 'usd') {
+        resultText += `<strong>Dólares:</strong><br>Compra: ${data.TipoCompraDolares}<br>Venta: ${data.TipoVentaDolares}`;
+      } else if (tipo === 'eur') {
+        resultText += `<strong>Euros:</strong><br>Compra: ${data.TipoCompraEuros}<br>Venta: ${data.TipoVentaEuros}`;
+      }
+      document.getElementById('result').innerHTML = resultText;
+    };
+
+    // Muestra errores en la consola si la llamada a la API falla
+    const error = () => console.log(this.responseText);
+
+    // Envía una solicitud a la API y maneja la respuesta
+    function getExchange() {
+      const tipo = document.getElementById('currencyType').value;
+      const ajaxRequest = new XMLHttpRequest();
+      ajaxRequest.addEventListener("load", completed); // Escucha la respuesta exitosa
+      ajaxRequest.addEventListener("error", error); // Escucha errores
+      ajaxRequest.open("GET", `http://localhost:3001/tipocambio?type=${tipo}`);
+      ajaxRequest.send();
+    }
+  </script>
+</head>
+
+<body class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <i class="fas fa-exchange-alt"></i> Tipo de Cambio
+    </div>
+    <div class="card-body">
+      <select id="currencyType" class="custom-select mb-2">
+        <option value="usd">Dólares</option>
+        <option value="eur">Euros</option>
+      </select>
+      <button onclick="getExchange();" class="btn btn-success"><i class="fas fa-sync"></i> Actualizar</button>
+      <h3 class="mt-3">Resultados:</h3>
+      <div id="result" class="alert alert-info mt-3"></div>
+    </div>
+  </div>
+</body>
+
+</html>
