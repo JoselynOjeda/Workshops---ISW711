@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Curso</title>
+    <!-- CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS de FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+     <!-- SweetAlert CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Añadir Curso
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre del curso <i class="fas fa-book"></i></label>
+                        <input type="text" class="form-control" id="name" placeholder="Ingrese el nombre del curso">
+                    </div>
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Código del curso <i class="fas fa-code"></i></label>
+                        <input type="text" class="form-control" id="code" placeholder="Ingrese el código del curso">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción del curso <i
+                                class="fas fa-align-left"></i></label>
+                        <input type="text" class="form-control" id="description" placeholder="Describa el curso">
+                    </div>
+                    <div class="mb-3">
+                        <label for="profesor" class="form-label">Profesor <i class="fas fa-user"></i></label>
+                        <select class="form-control" id="profesor">
+                            <option>Seleccione un profesor</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="createCourse()">Guardar</button>
+                </form>
+            </div>
+            <div class="card-footer text-end">
+                <button type="button" class="btn btn-secondary" onclick="history.back()">Volver</button>
+            </div>
+        </div>
+    </div>
+    <!-- Referencia al archivo JavaScript externo -->
+    <script src="js/functions.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadTeachers(); // Llama a la función para cargar y mostrar los datos de los profesores en el select
+        });
+    </script>
+</body>
+
+</html>
