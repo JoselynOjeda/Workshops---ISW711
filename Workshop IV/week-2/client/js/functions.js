@@ -71,11 +71,17 @@ function getTeachers() {
 }
 
 function getCourses() {
-    fetch('http://localhost:3001/api/courses')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('No se pudo obtener la lista de cursos.');
+    const token = sessionStorage.getItem('authorization'); // Obtener el token del sessionStorage
+
+    fetch('http://localhost:3001/api/courses', {
+        method: 'GET',
+        headers: {
+            'Authorization': token, // Enviar el token en el header de Authorization
+            'Content-Type': 'application/json'
         }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
         return response.json();
     })
     .then(data => {
@@ -90,7 +96,6 @@ function getCourses() {
             row.insertCell(2).textContent = course.description;
             row.insertCell(3).textContent = course.teacher ? `${course.teacher.first_name} ${course.teacher.last_name}` : 'Sin asignar';
             
-            // Botones de editar y eliminar
             const actions = row.insertCell(4);
             actions.innerHTML = `<button class="btn btn-info btn-sm" onclick="editCourse('${course._id}')">Editar</button>
                                  <button class="btn btn-danger btn-sm" onclick="deleteCourse('${course._id}')">Eliminar</button>`;
@@ -105,6 +110,7 @@ function getCourses() {
         });
     });
 }
+
 
 function editCourse(courseId) {
     window.location.href = `editCourse.html?courseId=${courseId}`;
@@ -209,3 +215,23 @@ function deleteCourse(courseId) {
         Swal.fire('Error', 'No se pudo eliminar el curso: ' + error.message, 'error');
     });
 }
+
+// functions.js
+function fetchCourses() {
+    const token = sessionStorage.getItem('authorization');
+    fetch('http://localhost:3001/api/courses', {
+        method: 'GET', // Especifica el método, si no es especificado, 'GET' es el método por defecto
+        headers: {
+            'Authorization': token
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+}
+

@@ -1,8 +1,12 @@
 const express = require('express'); //framework
+const authRoutes = require('./routes/authRoutes');
+const authController = require('./controllers/authController'); // Asegúrate que la ruta es correcta
 const app = express();
 // database connection
 const mongoose = require("mongoose"); //npm install mongoose
 const db = mongoose.connect("mongodb+srv://Joselyn:Admin12345@cluster0.nlq3u.mongodb.net/teachers"); //conectar a la conexion, es diferente
+
+const path = require('path');
 
 // parser for the request body (required for the POST and PUT methods)
 const bodyParser = require("body-parser");
@@ -18,7 +22,8 @@ const { teacherGet, teacherPost, teacherPatch, teacherDelete } = require('./cont
 
 const { courseGet, coursePost, courseUpdate, courseGetById, deleteCourse} = require('./controllers/courseController');
 
-
+app.post('/api/register', authController.register);
+app.post('/api/authenticate', authController.login);
 // listen to the task request
 app.post("/api/teachers", teacherPost);
 app.get("/api/teachers/",teacherGet);
